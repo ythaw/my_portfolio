@@ -1,0 +1,25 @@
+.running-character {
+  --running-character-aspect: 1640 / 2360;
+
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--running-character-aspect);
+  line-height: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.running-character__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+}
+
+.running-character__frame[hidden] {
+  display: none;
+}

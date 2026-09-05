@@ -1,0 +1,60 @@
+.idle-character {
+  /* Matches the idle PNG canvas ratio. */
+  --idle-character-aspect: 1640 / 2360;
+
+  position: relative;
+  display: inline-block;
+  aspect-ratio: var(--idle-character-aspect);
+  line-height: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.idle-character__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+}
+
+/* Layer draw order. */
+.idle-character__body {
+  z-index: 1;
+}
+
+.idle-character__hair {
+  z-index: 2;
+}
+
+.idle-character__excited {
+  z-index: 3;
+}
+
+.idle-character__eyes,
+.idle-character__blink {
+  z-index: 4;
+}
+
+.idle-character__pupil {
+  z-index: 5;
+  transform: translate(0, 0);
+  transition: transform 0.45s cubic-bezier(0.22, 0.7, 0.25, 1);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .idle-character__pupil {
+    transition: none;
+  }
+}
+
+.idle-character__glasses {
+  z-index: 6;
+}
+
+.idle-character__layer[hidden] {
+  display: none;
+}

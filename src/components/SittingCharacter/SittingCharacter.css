@@ -1,0 +1,74 @@
+.sitting-character {
+  --sitting-character-aspect: 1640 / 2360;
+
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--sitting-character-aspect);
+  line-height: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.sitting-character--interactive {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.sitting-character__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+}
+
+.sitting-character__legs {
+  z-index: 1;
+}
+
+.sitting-character__body {
+  z-index: 2;
+}
+
+.sitting-character__face {
+  z-index: 3;
+}
+
+.sitting-character__mouth {
+  z-index: 4;
+}
+
+.sitting-character__eyes {
+  z-index: 5;
+}
+
+.sitting-character__pupils {
+  z-index: 6;
+  transition: transform 0.12s ease-out;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sitting-character__pupils {
+    transition: none;
+  }
+}
+
+.sitting-character__hair {
+  z-index: 7;
+}
+
+.sitting-character__glasses {
+  z-index: 8;
+}
+
+.sitting-character__laugh {
+  z-index: 9;
+}
+
+.sitting-character__layer[hidden] {
+  display: none;
+}

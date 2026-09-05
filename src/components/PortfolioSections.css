@@ -1,0 +1,562 @@
+.portfolio {
+  position: relative;
+  z-index: 0;
+  animation: portfolio-reveal 0.55s cubic-bezier(0.22, 0.8, 0.25, 1) both;
+}
+
+@keyframes portfolio-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio {
+    animation: none;
+  }
+}
+
+.portfolio__hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 6rem clamp(1.25rem, 4vw, 3.5rem) 8rem;
+  box-sizing: border-box;
+}
+
+.portfolio__hero-inner {
+  width: min(1100px, 100%);
+  display: grid;
+  /* Wider name column than the aside. */
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: end;
+}
+
+.portfolio__name {
+  margin: 0;
+  padding-left: clamp(1.25rem, 5vw, 3.5rem);
+  font-size: clamp(3.2rem, 9vw, 6.4rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  color: #2f2b27;
+}
+
+.portfolio__name-first,
+.portfolio__name-last {
+  display: block;
+}
+
+.portfolio__name-first {
+  white-space: nowrap;
+}
+
+.portfolio__hero-aside {
+  max-width: 40rem;
+  padding-bottom: 0.35rem;
+  padding-left: 2rem;
+}
+
+.portfolio__role {
+  margin: 0 0 0.85rem;
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  letter-spacing: 0.02em;
+  color: #5c554e;
+}
+
+.portfolio__lede {
+  margin: 0;
+  font-size: clamp(1.05rem, 2.1vw, 1.2rem);
+  line-height: 1.45;
+  color: #4a433c;
+}
+
+.portfolio__section {
+  padding: clamp(3.5rem, 8vh, 5.5rem) clamp(1.25rem, 4vw, 3.5rem);
+  border-top: 1px solid rgba(74, 67, 60, 0.12);
+}
+
+.portfolio__section--contact {
+  padding-bottom: clamp(5rem, 12vh, 8rem);
+}
+
+.portfolio__section-inner {
+  width: min(920px, 100%);
+  margin: 0 auto;
+}
+
+.portfolio__section-inner--wide {
+  width: min(980px, 100%);
+}
+
+.portfolio__heading {
+  margin: 0 0 0.4rem;
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #2f2b27;
+}
+
+.portfolio__support {
+  margin: 0 0 2rem;
+  font-size: 1.1rem;
+  color: #6a635c;
+}
+
+.portfolio__edu-path {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(7rem, 0.7fr) minmax(0, 1.15fr);
+  gap: 0.75rem 1rem;
+  align-items: start;
+  margin-bottom: 2.75rem;
+}
+
+.portfolio__edu-stop {
+  text-align: center;
+}
+
+.portfolio__edu-art {
+  display: block;
+  width: min(100%, 210px);
+  height: auto;
+  margin: 0 auto 0.85rem;
+  aspect-ratio: 1640 / 2360;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.portfolio__edu-transfer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 1.5rem;
+  min-height: 13rem;
+}
+
+.portfolio__edu-plane {
+  position: relative;
+  z-index: 1;
+  width: min(240px, 32vw);
+  height: auto;
+  margin-top: 2.5rem;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.portfolio__edu-transfer-label {
+  position: relative;
+  z-index: 1;
+  margin: 0.55rem 0 0;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  color: #5c554e;
+}
+
+.portfolio__edu-school {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem 0.65rem;
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.2rem, 2.4vw, 1.4rem);
+  font-weight: 400;
+  color: #2f2b27;
+}
+
+.portfolio__edu-current {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+  letter-spacing: 0.03em;
+  color: #8a5a32;
+}
+
+.portfolio__edu-current-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #d9773a;
+  box-shadow: 0 0 0 3px rgba(217, 119, 58, 0.18);
+}
+
+.portfolio__edu-meta,
+.portfolio__project-meta {
+  margin: 0 0 0.55rem;
+  font-size: 1rem;
+  color: #6a635c;
+}
+
+.portfolio__edu-stop .portfolio__edu-meta {
+  margin-bottom: 0.2rem;
+}
+
+.portfolio__edu-detail {
+  margin: 0.25rem 0 0;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  color: #4a433c;
+}
+
+.portfolio__edu-stop .portfolio__edu-detail {
+  margin-top: 0.15rem;
+}
+
+.portfolio__project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.portfolio__project-title {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.25rem, 2.5vw, 1.45rem);
+  font-weight: 400;
+  color: #2f2b27;
+}
+
+.portfolio__project-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.25rem;
+}
+
+.portfolio__project-link {
+  color: #4a433c;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(74, 67, 60, 0.35);
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.portfolio__project-link:hover {
+  color: #2f2b27;
+  border-bottom-color: rgba(74, 67, 60, 0.7);
+}
+
+.portfolio__project-points {
+  margin: 0.35rem 0 0;
+  padding-left: 1.15rem;
+  color: #4a433c;
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.portfolio__project-points li + li {
+  margin-top: 0.35rem;
+}
+
+.portfolio__section-inner--skills {
+  width: min(1180px, 100%);
+}
+
+.portfolio__heading--skills {
+  text-align: center;
+}
+
+.portfolio__support--center {
+  text-align: center;
+  margin-bottom: 2.75rem;
+}
+
+.portfolio__skills {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.portfolio__skill-row {
+  display: grid;
+  grid-template-columns: minmax(6.5rem, 8.5rem) minmax(0, 1fr);
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+}
+
+.portfolio__skill-label {
+  margin: 0;
+  font-size: clamp(1.15rem, 2.2vw, 1.35rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #2f2b27;
+  line-height: 1.2;
+}
+
+.portfolio__skill-bubbles {
+  margin: 0;
+  padding: 0.55rem 0 0.75rem;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  column-gap: clamp(1.35rem, 4.2vw, 3.1rem);
+  row-gap: clamp(0.35rem, 1.2vw, 0.75rem);
+  overflow: visible;
+}
+
+.portfolio__skill-bubble {
+  --skill-float: 0rem;
+  --bubble-size: 5.6rem;
+
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--bubble-size);
+  height: var(--bubble-size);
+  transform: translateY(var(--skill-float));
+  scale: 1;
+  animation: skill-bob 4.8s ease-in-out infinite;
+  transition: scale 0.22s ease;
+  cursor: default;
+  z-index: 0;
+}
+
+.portfolio__skill-bubble:hover {
+  scale: 1.08;
+  z-index: 1;
+}
+
+.portfolio__skill-bubble--sm {
+  --bubble-size: 6rem;
+  animation-duration: 5.4s;
+  animation-delay: -0.8s;
+}
+
+.portfolio__skill-bubble--md {
+  --bubble-size: 6.5rem;
+  animation-duration: 4.6s;
+  animation-delay: -1.6s;
+}
+
+.portfolio__skill-bubble--lg {
+  --bubble-size: 8rem;
+  animation-duration: 5.1s;
+  animation-delay: -2.4s;
+}
+
+.portfolio__skill-bubble-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.portfolio__skill-bubble-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Darkens the light bubble outline. */
+  filter: brightness(0) opacity(0.42);
+}
+
+.portfolio__skill-bubble-content {
+  position: absolute;
+  inset: 14%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.18rem;
+  text-align: center;
+}
+
+.portfolio__skill-icon {
+  width: 38%;
+  height: auto;
+  max-height: 1.85rem;
+  object-fit: contain;
+}
+
+.portfolio__skill-bubble--lg .portfolio__skill-icon {
+  max-height: 2.25rem;
+}
+
+.portfolio__skill-monogram {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #4a433c;
+  line-height: 1;
+}
+
+.portfolio__skill-bubble--lg .portfolio__skill-monogram {
+  font-size: 1.15rem;
+}
+
+.portfolio__skill-name {
+  max-width: 100%;
+  font-size: 0.72rem;
+  line-height: 1.1;
+  color: #3f3a35;
+  word-break: break-word;
+}
+
+.portfolio__skill-bubble--lg .portfolio__skill-name {
+  font-size: 0.8rem;
+}
+
+.portfolio__skill-bubble--sm .portfolio__skill-name {
+  font-size: 0.66rem;
+}
+
+@keyframes skill-bob {
+  0%,
+  100% {
+    transform: translateY(var(--skill-float));
+  }
+  50% {
+    transform: translateY(calc(var(--skill-float) - 0.28rem));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio__skill-bubble {
+    animation: none;
+  }
+}
+
+.portfolio__contact-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.portfolio__contact-list a {
+  color: #4a433c;
+  font-size: clamp(1.15rem, 2.4vw, 1.35rem);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.portfolio__contact-list a:hover {
+  color: #2f2b27;
+  border-bottom-color: rgba(74, 67, 60, 0.45);
+}
+
+@media (max-width: 800px) {
+  .portfolio__hero {
+    min-height: auto;
+    align-items: flex-start;
+    padding: 5.75rem 1.25rem 3rem;
+  }
+
+  .portfolio__hero-inner {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+    align-items: start;
+  }
+
+  .portfolio__name {
+    padding-left: 0;
+    font-size: clamp(2.55rem, 12vw, 3.4rem);
+    line-height: 1.02;
+  }
+
+  .portfolio__name-first {
+    white-space: normal;
+  }
+
+  .portfolio__hero-aside {
+    max-width: none;
+    padding-left: 0;
+    padding-bottom: 0;
+  }
+
+  .portfolio__role {
+    font-size: 1.05rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .portfolio__lede {
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  .portfolio__section {
+    padding: 2.75rem 1.25rem;
+  }
+
+  .portfolio__section--contact {
+    padding-bottom: 4rem;
+  }
+
+  .portfolio__support {
+    margin-bottom: 1.35rem;
+  }
+
+  .portfolio__edu-path {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    justify-items: center;
+  }
+
+  .portfolio__edu-stop {
+    width: min(100%, 300px);
+  }
+
+  .portfolio__edu-art {
+    width: min(100%, 200px);
+    margin-bottom: 0.55rem;
+  }
+
+  .portfolio__edu-transfer {
+    display: none;
+  }
+
+  .portfolio__skill-row {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+    align-items: start;
+  }
+
+  .portfolio__skill-bubbles {
+    padding: 0;
+    justify-content: flex-start;
+    column-gap: 1.15rem;
+    row-gap: 0.4rem;
+  }
+
+  .portfolio__skill-bubble--sm {
+    --bubble-size: 4.25rem;
+  }
+
+  .portfolio__skill-bubble--md {
+    --bubble-size: 5.1rem;
+  }
+
+  .portfolio__skill-bubble--lg {
+    --bubble-size: 6.1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .portfolio__hero {
+    padding-top: 5.25rem;
+  }
+
+  .portfolio__name {
+    font-size: 2.35rem;
+  }
+}
