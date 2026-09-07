@@ -3,6 +3,12 @@ import sierraCollegeImg from '../../asset/education/Sierra College.PNG'
 import sjsuImg from '../../asset/education/SJSU.PNG'
 import transferImg from '../../asset/education/transfer_icon.PNG'
 import bubbleImg from '../../asset/skill-bubble/bubble.PNG'
+import blackjackPreview from '../../asset/projects/blackjack.png'
+import cookPreview from '../../asset/projects/cook.png'
+import wordlePreview from '../../asset/projects/wordle.png'
+import wtmdPreview from '../../asset/projects/wtmd.png'
+import agentisPreview from '../../asset/projects/AGENTIS.png'
+import castPreview from '../../asset/projects/cast.png'
 import './PortfolioSections.css'
 
 const DEVICON = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons'
@@ -19,50 +25,86 @@ type SkillBubble = {
   float: number
 }
 
-const PROJECTS = [
+const FEATURED_PROJECTS = [
   {
-    title: 'AGENTIS – AI Clinical Trial Matching Assistant',
-    meta: 'IBM SkillsBuild · Team of 4',
-    href: 'https://www.youtube.com/watch?v=bZ-Ext1nx0M',
-    linkLabel: 'Watch demo',
-    points: [
-      'Built an AI multi-agent system that matches patients to clinical trials using ClinicalTrials.gov data.',
-      'Developed ranking logic and output formatting to prioritize trials with eligibility + rationale.',
-      'Parsed natural language patient profiles into structured inputs using RAG and agent workflows.',
-      'Reduced manual trial search time by 60–70% for clinical research coordinators.',
-    ],
+    id: 'agentis',
+    windowTitle: 'AGENTIS',
+    title: 'AGENTIS',
+    blurb: 'An AI clinical trial matching assistant that understands patient profiles.',
+    tags: ['Python', 'RAG', 'AI'],
+    preview: agentisPreview,
+    primary: {
+      label: 'view project',
+      href: 'https://www.youtube.com/watch?v=bZ-Ext1nx0M',
+    },
+    tilt: -2.8,
   },
   {
+    id: 'lets-cook',
+    windowTitle: "Let's Cook",
+    title: "Let's Cook – AI-Assisted Cooking Companion",
+    blurb: 'A pantry-smart cooking buddy that tracks groceries and makes dinner decisions easier.',
+    tags: ['TypeScript', 'React Native', 'AI'],
+    preview: cookPreview,
+    primary: {
+      label: 'view project',
+      href: 'https://www.youtube.com/watch?v=773cCLWPJAA',
+    },
+    github: 'https://github.com/ythaw/Let-sCook',
+    tilt: 1.2,
+  },
+  {
+    id: 'spell',
+    windowTitle: 'Magic Spell Simulator',
     title: 'Hand Tracking Magic Spell Simulator',
-    meta: 'Python · OpenCV · MediaPipe · TensorFlow/Keras',
-    href: 'https://github.com/ythaw/Cast-Magic-Spell',
-    linkLabel: 'GitHub',
-    points: [
-      'Real-time webcam spell caster with MediaPipe Hand Landmarker and pinch-to-draw tracking.',
-      'Collected 200+ sigil samples and trained a CNN on 64×64 grayscale images (fire, water, earth).',
-      'Closed-ring casting pipeline triggers elemental effects at ≥90% model confidence.',
-    ],
+    blurb: 'Cast spells with your hands using computer vision.',
+    tags: ['Python', 'OpenCV'],
+    preview: castPreview,
+    primary: {
+      label: 'view project',
+      href: 'https://github.com/ythaw/Cast-Magic-Spell',
+    },
+    github: 'https://github.com/ythaw/Cast-Magic-Spell',
+    tilt: 0.6,
   },
   {
+    id: 'wordle',
+    windowTitle: 'Wordle Clone',
     title: 'Wordle Clone',
-    meta: 'React · JavaScript',
-    href: 'https://wordle-clone-by-lone.vercel.app/',
-    linkLabel: 'Live demo',
-    points: [
-      'Interactive Wordle-style game with external API word validation.',
-      'Custom guess evaluation for repeated letters and partial matches.',
-      'React Hooks for guesses, keyboard input, and game progression.',
-    ],
+    blurb: 'A simple word game built with React.',
+    tags: ['React', 'JavaScript'],
+    preview: wordlePreview,
+    primary: {
+      label: 'live demo',
+      href: 'https://wordle-clone-by-lone.vercel.app/',
+    },
+    tilt: 2.4,
   },
   {
+    id: 'movies',
+    windowTitle: 'Movie Discovery',
     title: 'Movie Discovery Web Application',
-    meta: 'React · Vite · Axios · TMDB API',
-    href: 'https://wtmdb.onrender.com/',
-    linkLabel: 'Live demo',
-    points: [
-      'Responsive app to fetch and display movie data from the TMDB API.',
-      'Async data fetching and client-side state with React Hooks and Axios.',
-    ],
+    blurb: 'Browse and discover movies with data from the TMDB API.',
+    tags: ['React', 'Vite', 'Axios'],
+    preview: wtmdPreview,
+    primary: {
+      label: 'live demo',
+      href: 'https://wtmdb.onrender.com/',
+    },
+    tilt: -1.6,
+  },
+  {
+    id: 'game-manager',
+    windowTitle: 'Game Manager',
+    title: 'Game Manager',
+    blurb: 'A JavaFX game hub with Snake and Blackjack built in.',
+    tags: ['Java', 'JavaFX'],
+    preview: blackjackPreview,
+    primary: {
+      label: 'view demo',
+      href: 'https://drive.google.com/file/d/1dl8GaAkFa3fc4eVlUHRBUGIs5ar_9Uf_/view?pli=1',
+    },
+    tilt: 1.8,
   },
 ] as const
 
@@ -178,33 +220,85 @@ export function PortfolioSections() {
         </div>
       </section>
 
-      <section id="work" className="portfolio__section">
-        <div className="portfolio__section-inner">
-          <h2 className="portfolio__heading">Projects</h2>
-          <p className="portfolio__support">A few things I’ve built recently.</p>
+      <section id="work" className="portfolio__section portfolio__section--projects">
+        <div className="portfolio__section-inner portfolio__section-inner--projects">
+          <h2 className="portfolio__heading portfolio__heading--center">Projects</h2>
+          <p className="portfolio__support portfolio__support--center">
+            Things I’ve built recently.
+          </p>
 
-          <div className="portfolio__project-list">
-            {PROJECTS.map((project) => (
-              <article key={project.title} className="portfolio__project">
-                <div className="portfolio__project-head">
-                  <h3 className="portfolio__project-title">{project.title}</h3>
-                  <a
-                    className="portfolio__project-link"
-                    href={project.href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {project.linkLabel}
-                  </a>
-                </div>
-                <p className="portfolio__project-meta">{project.meta}</p>
-                <ul className="portfolio__project-points">
-                  {project.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
-              </article>
-            ))}
+          <div className="portfolio__clothesline" aria-label="Featured projects">
+            <ul className="portfolio__project-cards">
+              {FEATURED_PROJECTS.map((project) => (
+                <li
+                  key={project.id}
+                  className="portfolio__project-card"
+                  style={{ '--project-tilt': `${project.tilt}deg` } as CSSProperties}
+                >
+                  <span className="portfolio__project-pin" aria-hidden="true" />
+
+                  <article className="portfolio__project-sheet">
+                    <div className="portfolio__project-window">
+                      <div className="portfolio__project-window-bar">
+                        <span className="portfolio__project-window-dots" aria-hidden="true">
+                          <i /><i /><i />
+                        </span>
+                        <span className="portfolio__project-window-title">{project.windowTitle}</span>
+                      </div>
+                      <div className="portfolio__project-media">
+                        {'preview' in project && project.preview ? (
+                          <img
+                            className="portfolio__project-media-img"
+                            src={project.preview}
+                            alt={`${project.title} preview`}
+                            draggable={false}
+                            loading="lazy"
+                          />
+                        ) : (
+                          <span className="portfolio__project-media-label" aria-hidden="true">
+                            preview soon
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <h3 className="portfolio__project-title">{project.title}</h3>
+                    <p className="portfolio__project-blurb">{project.blurb}</p>
+
+                    <ul className="portfolio__project-tags">
+                      {project.tags.map((tag) => (
+                        <li key={tag}>{tag}</li>
+                      ))}
+                    </ul>
+
+                    <div className="portfolio__project-actions">
+                      <a
+                        className="portfolio__project-action portfolio__project-action--primary"
+                        href={project.primary.href}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {project.primary.label}
+                        <span aria-hidden="true"> →</span>
+                      </a>
+                      {('github' in project) && project.github && (
+                        <>
+                          <span className="portfolio__project-action-sep" aria-hidden="true">|</span>
+                          <a
+                            className="portfolio__project-action"
+                            href={project.github}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            GitHub
+                          </a>
+                        </>
+                      )}
+                    </div>
+                  </article>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
