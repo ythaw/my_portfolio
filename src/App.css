@@ -23,7 +23,6 @@
   pointer-events: none;
 }
 
-/* Top navigation bar. */
 .app__nav {
   position: fixed;
   top: 0;
@@ -45,7 +44,7 @@
   animation: nav-settle 0.45s cubic-bezier(0.22, 0.8, 0.25, 1) both;
 }
 
-/* Hidden copy of the nav for measuring sit / sushi end positions. */
+/* Measures sit / sushi end positions for the chase animation. */
 .app__nav--ghost {
   visibility: hidden;
   pointer-events: none;
@@ -81,7 +80,7 @@
 
 .app__nav-links a {
   color: #5c554e;
-  font-size: 0.88rem;
+  font-size: 1.08rem;
   letter-spacing: 0.03em;
   text-decoration: none;
   border-bottom: 1px solid transparent;
@@ -95,7 +94,6 @@
   border-bottom-color: rgba(74, 67, 60, 0.45);
 }
 
-/* Holds the sushi platter and sitting character on the nav. */
 .app__nav-perch {
   position: absolute;
   left: 0.35rem;
@@ -119,7 +117,6 @@
   overflow: hidden;
 }
 
-/* Scales the sushi platter to sit inside the nav bar. */
 .app__nav-sushi .sushi-platter {
   width: 175%;
   max-width: none;
@@ -133,7 +130,6 @@
   width: var(--intro-char-width);
   aspect-ratio: 1640 / 2360;
   margin-left: -0.35rem;
-  /* Overhangs below the nav so legs hang under the bar. */
   margin-bottom: -4.5rem;
   z-index: 2;
   pointer-events: auto;
@@ -157,14 +153,13 @@
   width: 100%;
 }
 
-/* Sushi position above and left of the centered character. */
 .app__sushi-anchor {
   --sushi-anchor-width: min(88px, 20vw);
   --char-height: calc(var(--intro-char-width) * 2360 / 1640);
 
   position: fixed;
-  left: calc(50% - var(--sushi-anchor-width) * 0.5 - var(--intro-char-width) * 0.42);
-  top: calc(50% - var(--char-height) * 0.5 - var(--sushi-anchor-width) * 0.95);
+  left: calc(50% - var(--sushi-anchor-width) * 0.5 - var(--intro-char-width) * 0.62);
+  top: calc(50% - var(--char-height) * 0.5 - var(--sushi-anchor-width) * 0.12);
   width: var(--sushi-anchor-width);
   z-index: 13;
   pointer-events: none;
@@ -173,7 +168,6 @@
 
 .app__runner-anchor {
   position: fixed;
-  /* Position and width are set in JS during the chase. */
   width: var(--intro-char-width);
   z-index: 2;
   pointer-events: none;
@@ -200,15 +194,13 @@
   cursor: pointer;
   transition:
     color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
-  animation: cta-nudge 2.6s ease-in-out infinite;
+    border-color 0.2s ease;
+  animation: cta-float 4.8s ease-in-out infinite;
 }
 
 .app__cta:hover {
   color: #2f2b27;
   border-bottom-color: rgba(74, 67, 60, 0.7);
-  transform: translateX(-50%) translateY(-1px);
 }
 
 .app__cta:focus-visible {
@@ -216,13 +208,13 @@
   outline-offset: 4px;
 }
 
-@keyframes cta-nudge {
+@keyframes cta-float {
   0%,
   100% {
-    opacity: 0.82;
+    transform: translateX(-50%) translateY(0);
   }
   50% {
-    opacity: 1;
+    transform: translateX(-50%) translateY(-0.28rem);
   }
 }
 
@@ -255,7 +247,7 @@
   }
 
   .app__nav-links a {
-    font-size: 1rem;
+    font-size: 1.12rem;
     padding: 0.4rem 0;
     letter-spacing: 0.02em;
   }
@@ -288,6 +280,6 @@
   }
 
   .app__nav-links a {
-    font-size: 0.92rem;
+    font-size: 1.02rem;
   }
 }

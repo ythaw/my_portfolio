@@ -4,14 +4,15 @@ import { PortfolioSections } from './components/PortfolioSections'
 import { RunningCharacter } from './components/RunningCharacter'
 import { SittingCharacter } from './components/SittingCharacter'
 import { SushiPlatter } from './components/SushiPlatter'
+import { useGlobalClickSound } from './lib/clickSound'
 import './App.css'
 
 type IntroPhase = 'idle' | 'sushi-pop' | 'sushi-look' | 'sushi-travel' | 'sushi-arrived'
 
 const LOOK_HOLD_MS = 2000
 const LOOK_DELAY_MS = 1000
-const TRAVEL_MS = 4500
-const SUSHI_LOOK = { x: -0.55, y: -1.15 }
+const TRAVEL_MS = 3200
+const SUSHI_LOOK = { x: -0.75, y: -0.55 }
 
 function prefersReducedMotion() {
   return typeof window !== 'undefined'
@@ -44,11 +45,10 @@ function buildDiagonalKeyframes(
 }
 
 export default function App() {
+  useGlobalClickSound()
   const [phase, setPhase] = useState<IntroPhase>('idle')
   const [looking, setLooking] = useState(false)
-  /** True once the runner is positioned on the idle character’s box. */
   const [runnerLockedIn, setRunnerLockedIn] = useState(false)
-  /** True after the idle character unmounts for the chase. */
   const [idleDismissed, setIdleDismissed] = useState(false)
   const sushiAnchorRef = useRef<HTMLDivElement>(null)
   const characterAnchorRef = useRef<HTMLDivElement>(null)
@@ -109,7 +109,6 @@ export default function App() {
     return () => window.clearTimeout(id)
   }, [phase])
 
-  // Record chase start positions and mount the runner.
   useLayoutEffect(() => {
     if (phase !== 'sushi-travel') return
 
@@ -133,7 +132,6 @@ export default function App() {
     setRunnerLockedIn(true)
   }, [phase, runnerLockedIn])
 
-  // Animate sushi and runner from start positions to the nav perch.
   useLayoutEffect(() => {
     if (phase !== 'sushi-travel' || !runnerLockedIn) return
 
@@ -155,7 +153,6 @@ export default function App() {
     charEl.style.bottom = 'auto'
     charEl.style.width = `${start.width}px`
 
-    // Hide the idle character after the runner is in place.
     const dismissId = window.requestAnimationFrame(() => setIdleDismissed(true))
 
     if (prefersReducedMotion()) {
@@ -224,14 +221,12 @@ export default function App() {
 
   return (
     <main className={['app', hasArrived && 'app--revealed'].filter(Boolean).join(' ')}>
-      {/* Preload run / sit / sushi assets offscreen. */}
       <div className="app__asset-cache" aria-hidden="true">
         <RunningCharacter width={120} playing={false} />
         <SittingCharacter width={120} followMouse={false} laughOnClick={false} />
         <SushiPlatter visible suppressEnter width={80} />
       </div>
 
-      {/* Hidden nav used to measure chase end targets. */}
       <header className="app__nav app__nav--ghost" aria-hidden="true">
         <div className="app__nav-perch">
           <div ref={sushiTargetRef} className="app__nav-sushi" />
@@ -295,7 +290,7 @@ export default function App() {
 
       {showRunner && (
         <div ref={characterAnchorRef} className="app__runner-anchor">
-          <RunningCharacter width="100%" playing={isChasing} />
+          <RunningCharacter width="100%" playing={isChasing} frameMs={200} />
         </div>
       )}
 

@@ -1,4 +1,4 @@
-import { type CSSProperties } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import sierraCollegeImg from '../../asset/education/Sierra College.PNG'
 import sjsuImg from '../../asset/education/SJSU.PNG'
 import transferImg from '../../asset/education/transfer_icon.PNG'
@@ -9,6 +9,8 @@ import wordlePreview from '../../asset/projects/wordle.png'
 import wtmdPreview from '../../asset/projects/wtmd.png'
 import agentisPreview from '../../asset/projects/AGENTIS.png'
 import castPreview from '../../asset/projects/cast.png'
+import aboutBookImg from '../../asset/aboutme/book.png'
+import aboutNoteImg from '../../asset/aboutme/note.png'
 import './PortfolioSections.css'
 
 const DEVICON = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons'
@@ -17,11 +19,9 @@ type BubbleSize = 'sm' | 'md' | 'lg'
 
 type SkillBubble = {
   name: string
-  /** Devicon SVG URL. */
   icon?: string
   monogram?: string
   size: BubbleSize
-  /** Vertical offset in rem. */
   float: number
 }
 
@@ -30,8 +30,8 @@ const FEATURED_PROJECTS = [
     id: 'agentis',
     windowTitle: 'AGENTIS',
     title: 'AGENTIS',
-    blurb: 'An AI clinical trial matching assistant that understands patient profiles.',
-    tags: ['Python', 'RAG', 'AI'],
+    blurb: 'An AI clinical trial matching assistant for easy matching of patients and trials.',
+    tags: ['RAG', 'AI', 'watsonX Orchestrate'],
     preview: agentisPreview,
     primary: {
       label: 'view project',
@@ -57,7 +57,7 @@ const FEATURED_PROJECTS = [
     id: 'spell',
     windowTitle: 'Magic Spell Simulator',
     title: 'Hand Tracking Magic Spell Simulator',
-    blurb: 'Cast spells with your hands using computer vision.',
+    blurb: 'Cast spells with your hands using computer vision - inspired by Witch Hat Atelier.',
     tags: ['Python', 'OpenCV'],
     preview: castPreview,
     primary: {
@@ -151,23 +151,113 @@ const SKILL_GROUPS: { label: string; skills: SkillBubble[] }[] = [
 ]
 
 export function PortfolioSections() {
+  const [learningOpen, setLearningOpen] = useState(false)
+
+  useEffect(() => {
+    if (!learningOpen) return
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setLearningOpen(false)
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [learningOpen])
+
   return (
     <div className="portfolio">
       <section id="about" className="portfolio__hero">
-        <div className="portfolio__hero-inner">
-          <h1 className="portfolio__name">
-            <span className="portfolio__name-first">Yin Phyu Phyu</span>
-            <span className="portfolio__name-last">Thaw</span>
-          </h1>
-          <div className="portfolio__hero-aside">
-            <p className="portfolio__role">
-              B.S. Computer Science · SJSU · GPA 3.9
-            </p>
-            <p className="portfolio__lede">
-              I build playful interfaces and practical AI tools—from clinical-trial matching
-              agents to webcam spell casters. Currently a website officer at AI/ML Club at SJSU
-              and exploring frontend, computer vision, and multi-agent systems. 
-            </p>
+        <div className="portfolio__about-board">
+          <div className="portfolio__about-stack">
+            <img
+              className="portfolio__about-layer portfolio__about-layer--book"
+              src={aboutBookImg}
+              alt=""
+              draggable={false}
+            />
+            <img
+              className="portfolio__about-layer portfolio__about-layer--note"
+              src={aboutNoteImg}
+              alt=""
+              draggable={false}
+            />
+
+            <div className="portfolio__about-copy">
+              <button
+                type="button"
+                className="portfolio__about-learning-toggle"
+                aria-expanded={learningOpen}
+                aria-controls="about-learning-note"
+                onClick={() => setLearningOpen(true)}
+              >
+                what I&apos;m learning
+              </button>
+
+              <h1 className="portfolio__about-heading">Thinking, Building, Experimenting</h1>
+              <p className="portfolio__about-name">Yin Phyu Phyu Thaw</p>
+              <p className="portfolio__about-role">CS student · SJSU · GPA 3.9</p>
+              <p className="portfolio__about-body">
+                AI tools, interactive experiences, and little experiments.
+              </p>
+
+              <ul className="portfolio__about-tags">
+                <li className="portfolio__about-tag portfolio__about-tag--mint">
+                  AI-powered tools
+                </li>
+                <li className="portfolio__about-tag portfolio__about-tag--peach">
+                  Computer vision
+                </li>
+                <li className="portfolio__about-tag portfolio__about-tag--sky">
+                  Interactive apps
+                </li>
+              </ul>
+
+              <a
+                className="portfolio__about-footer"
+                href="https://www.ai-ml-club-sjsu.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Website Officer · SJSU AI/ML Club
+              </a>
+            </div>
+
+            {learningOpen && (
+              <button
+                type="button"
+                className="portfolio__about-learning-backdrop"
+                aria-label="Close currently learning note"
+                onClick={() => setLearningOpen(false)}
+              />
+            )}
+
+            <aside
+              id="about-learning-note"
+              className={[
+                'portfolio__about-learning',
+                learningOpen && 'portfolio__about-learning--open',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <img
+                className="portfolio__about-learning-note"
+                src={aboutNoteImg}
+                alt=""
+                draggable={false}
+              />
+              <div className="portfolio__about-learning-content">
+                <h2 className="portfolio__about-learning-title">currently learning</h2>
+                <ul className="portfolio__about-learning-list">
+                  <li>AI agents</li>
+                  <li>React / TypeScript</li>
+                  <li>Computer Vision</li>
+                  <li>bash scripting</li>
+                  <li>Database / SQL</li>
+                </ul>
+              </div>
+            </aside>
           </div>
         </div>
       </section>
@@ -353,28 +443,34 @@ export function PortfolioSections() {
       </section>
 
       <section id="contact" className="portfolio__section portfolio__section--contact">
-        <div className="portfolio__section-inner">
-          <h2 className="portfolio__heading">Contact</h2>
-          <p className="portfolio__support">Say hi—I’m always up for a chat.</p>
+        <div className="portfolio__section-inner portfolio__section-inner--contact">
+          <h2 className="portfolio__contact-heading">Leave a note.</h2>
 
-          <ul className="portfolio__contact-list">
-            <li>
-              <a href="mailto:yppthaw@gmail.com">yppthaw@gmail.com</a>
-            </li>
-            <li>
-              <a href="tel:+19168460491">(916) 846-0491</a>
-            </li>
-            <li>
-              <a href="https://www.linkedin.com/in/yin-thaw" target="_blank" rel="noreferrer">
-                linkedin.com/in/yin-thaw
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/ythaw" target="_blank" rel="noreferrer">
-                github.com/ythaw
-              </a>
-            </li>
-          </ul>
+          <div className="portfolio__contact-folder">
+            <span className="portfolio__contact-tab">OPEN INVITATION</span>
+
+            <div className="portfolio__contact-card">
+              <p className="portfolio__contact-prompt">you can find me here:</p>
+
+              <ul className="portfolio__contact-links">
+                <li>
+                  <a href="mailto:yppthaw@gmail.com">yppthaw@gmail.com</a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/in/yin-thaw" target="_blank" rel="noreferrer">
+                    linkedin.com/in/yin-thaw
+                  </a>
+                </li>
+                <li>
+                  <a href="https://github.com/ythaw" target="_blank" rel="noreferrer">
+                    github.com/ythaw
+                  </a>
+                </li>
+              </ul>
+
+              <p className="portfolio__contact-closing">Let&apos;s make something useful.</p>
+            </div>
+          </div>
         </div>
       </section>
     </div>
