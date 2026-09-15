@@ -28,8 +28,21 @@ import sierraCollege from '../../asset/education/Sierra College.PNG'
 import sjsu from '../../asset/education/SJSU.PNG'
 import transferIcon from '../../asset/education/transfer_icon.PNG'
 
-/** Intro and portfolio image URLs to preload. */
-export const CHARACTER_ASSET_URLS = [
+import aboutBook from '../../asset/aboutme/book.png'
+import aboutNote from '../../asset/aboutme/note.png'
+import aboutNoteCard from '../../asset/aboutme/note-card.png'
+
+import bubble from '../../asset/skill-bubble/bubble.PNG'
+
+import blackjackPreview from '../../asset/projects/blackjack.webp'
+import cookPreview from '../../asset/projects/cook.webp'
+import wordlePreview from '../../asset/projects/wordle.webp'
+import wtmdPreview from '../../asset/projects/wtmd.webp'
+import agentisPreview from '../../asset/projects/AGENTIS.webp'
+import castPreview from '../../asset/projects/cast.webp'
+
+/** Needed for the first screen (idle character + sushi). */
+const CRITICAL_URLS = [
   idleBody,
   idleHair,
   idleExcited,
@@ -38,6 +51,12 @@ export const CHARACTER_ASSET_URLS = [
   idleLeftPupil,
   idleRightPupil,
   idleGlasses,
+  sushiPlatter,
+  sushiPop,
+] as const
+
+/** Loaded after the intro is interactive so they do not block first paint. */
+const DEFERRED_URLS = [
   run1,
   run2,
   run3,
@@ -50,11 +69,19 @@ export const CHARACTER_ASSET_URLS = [
   sitHair,
   sitGlasses,
   sitLaugh,
-  sushiPlatter,
-  sushiPop,
+  aboutBook,
+  aboutNote,
+  aboutNoteCard,
   sierraCollege,
   sjsu,
   transferIcon,
+  bubble,
+  agentisPreview,
+  cookPreview,
+  castPreview,
+  wordlePreview,
+  wtmdPreview,
+  blackjackPreview,
 ] as const
 
 function preloadOne(src: string) {
@@ -73,7 +100,24 @@ function preloadOne(src: string) {
   })
 }
 
-/** Loads and decodes character asset images. */
+function preloadAll(urls: readonly string[]) {
+  return Promise.all(urls.map(preloadOne))
+}
+
+/** Prefetch intro-critical images first, then the rest in the background. */
 export function preloadCharacterAssets() {
-  return Promise.all(CHARACTER_ASSET_URLS.map(preloadOne))
+  const critical = preloadAll(CRITICAL_URLS)
+
+  void critical.then(() => {
+    const schedule =
+      typeof requestIdleCallback === 'function'
+        ? requestIdleCallback
+        : (cb: () => void) => window.setTimeout(cb, 200)
+
+    schedule(() => {
+      void preloadAll(DEFERRED_URLS)
+    })
+  })
+
+  return critical
 }

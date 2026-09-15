@@ -3,14 +3,15 @@ import sierraCollegeImg from '../../asset/education/Sierra College.PNG'
 import sjsuImg from '../../asset/education/SJSU.PNG'
 import transferImg from '../../asset/education/transfer_icon.PNG'
 import bubbleImg from '../../asset/skill-bubble/bubble.PNG'
-import blackjackPreview from '../../asset/projects/blackjack.png'
-import cookPreview from '../../asset/projects/cook.png'
-import wordlePreview from '../../asset/projects/wordle.png'
-import wtmdPreview from '../../asset/projects/wtmd.png'
-import agentisPreview from '../../asset/projects/AGENTIS.png'
-import castPreview from '../../asset/projects/cast.png'
+import blackjackPreview from '../../asset/projects/blackjack.webp'
+import cookPreview from '../../asset/projects/cook.webp'
+import wordlePreview from '../../asset/projects/wordle.webp'
+import wtmdPreview from '../../asset/projects/wtmd.webp'
+import agentisPreview from '../../asset/projects/AGENTIS.webp'
+import castPreview from '../../asset/projects/cast.webp'
 import aboutBookImg from '../../asset/aboutme/book.png'
 import aboutNoteImg from '../../asset/aboutme/note.png'
+import aboutNoteCardImg from '../../asset/aboutme/note-card.png'
 import './PortfolioSections.css'
 
 const DEVICON = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons'
@@ -152,6 +153,17 @@ const SKILL_GROUPS: { label: string; skills: SkillBubble[] }[] = [
 
 export function PortfolioSections() {
   const [learningOpen, setLearningOpen] = useState(false)
+  const [isNarrow, setIsNarrow] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 800px)').matches,
+  )
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 800px)')
+    const sync = () => setIsNarrow(media.matches)
+    sync()
+    media.addEventListener('change', sync)
+    return () => media.removeEventListener('change', sync)
+  }, [])
 
   useEffect(() => {
     if (!learningOpen) return
@@ -163,6 +175,8 @@ export function PortfolioSections() {
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [learningOpen])
+
+  const showLearningNote = !isNarrow || learningOpen
 
   return (
     <div className="portfolio">
@@ -231,33 +245,35 @@ export function PortfolioSections() {
               />
             )}
 
-            <aside
-              id="about-learning-note"
-              className={[
-                'portfolio__about-learning',
-                learningOpen && 'portfolio__about-learning--open',
-              ]
-                .filter(Boolean)
-                .join(' ')}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <img
-                className="portfolio__about-learning-note"
-                src={aboutNoteImg}
-                alt=""
-                draggable={false}
-              />
-              <div className="portfolio__about-learning-content">
-                <h2 className="portfolio__about-learning-title">currently learning</h2>
-                <ul className="portfolio__about-learning-list">
-                  <li>AI agents</li>
-                  <li>React / TypeScript</li>
-                  <li>Computer Vision</li>
-                  <li>bash scripting</li>
-                  <li>Database / SQL</li>
-                </ul>
-              </div>
-            </aside>
+            {showLearningNote && (
+              <aside
+                id="about-learning-note"
+                className={[
+                  'portfolio__about-learning',
+                  learningOpen && 'portfolio__about-learning--open',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                onClick={(event) => event.stopPropagation()}
+              >
+                <img
+                  className="portfolio__about-learning-note"
+                  src={aboutNoteCardImg}
+                  alt=""
+                  draggable={false}
+                />
+                <div className="portfolio__about-learning-content">
+                  <h2 className="portfolio__about-learning-title">currently learning</h2>
+                  <ul className="portfolio__about-learning-list">
+                    <li>AI agents</li>
+                    <li>React / TypeScript</li>
+                    <li>Computer Vision</li>
+                    <li>bash scripting</li>
+                    <li>Database / SQL</li>
+                  </ul>
+                </div>
+              </aside>
+            )}
           </div>
         </div>
       </section>
@@ -274,6 +290,8 @@ export function PortfolioSections() {
                 src={sierraCollegeImg}
                 alt=""
                 draggable={false}
+                loading="lazy"
+                decoding="async"
               />
               <h3 className="portfolio__edu-school">Sierra College</h3>
               <p className="portfolio__edu-meta">A.S.-T Computer Science · May 2025</p>
@@ -285,6 +303,8 @@ export function PortfolioSections() {
                 src={transferImg}
                 alt=""
                 draggable={false}
+                loading="lazy"
+                decoding="async"
               />
               <p className="portfolio__edu-transfer-label">Transferred!</p>
             </div>
@@ -295,6 +315,8 @@ export function PortfolioSections() {
                 src={sjsuImg}
                 alt=""
                 draggable={false}
+                loading="lazy"
+                decoding="async"
               />
               <h3 className="portfolio__edu-school">
                 San José State University
@@ -343,6 +365,7 @@ export function PortfolioSections() {
                             alt={`${project.title} preview`}
                             draggable={false}
                             loading="lazy"
+                            decoding="async"
                           />
                         ) : (
                           <span className="portfolio__project-media-label" aria-hidden="true">
@@ -415,7 +438,7 @@ export function PortfolioSections() {
                       style={{ '--skill-float': `${skill.float}rem` } as CSSProperties}
                     >
                       <span className="portfolio__skill-bubble-frame" aria-hidden="true">
-                        <img src={bubbleImg} alt="" draggable={false} />
+                        <img src={bubbleImg} alt="" draggable={false} loading="lazy" decoding="async" />
                       </span>
                       <span className="portfolio__skill-bubble-content">
                         {skill.icon ? (
@@ -425,6 +448,7 @@ export function PortfolioSections() {
                             alt=""
                             draggable={false}
                             loading="lazy"
+                            decoding="async"
                           />
                         ) : (
                           <span className="portfolio__skill-monogram" aria-hidden="true">

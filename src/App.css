@@ -1,6 +1,7 @@
 .app {
   --intro-char-width: min(132px, 30vw);
   --intro-sushi-width: min(70px, 15vw);
+  --intro-center-y: 50%;
 
   position: relative;
   min-height: 100vh;
@@ -8,8 +9,7 @@
 }
 
 .app--revealed {
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow: visible;
 }
 
 .app__asset-cache {
@@ -138,7 +138,7 @@
 .app__stage {
   position: fixed;
   left: 50%;
-  top: 50%;
+  top: var(--intro-center-y);
   width: var(--intro-char-width);
   transform: translate(-50%, -50%);
   z-index: 12;
@@ -159,7 +159,7 @@
 
   position: fixed;
   left: calc(50% - var(--sushi-anchor-width) * 0.5 - var(--intro-char-width) * 0.62);
-  top: calc(50% - var(--char-height) * 0.5 - var(--sushi-anchor-width) * 0.12);
+  top: calc(var(--intro-center-y) - var(--char-height) * 0.5 - var(--sushi-anchor-width) * 0.12);
   width: var(--sushi-anchor-width);
   z-index: 13;
   pointer-events: none;
@@ -222,6 +222,22 @@
   .app__cta,
   .app__nav {
     animation: none;
+  }
+}
+
+/* Phones: move intro up. Prefer width/aspect over orientation — real devices
+   often don't match `orientation: portrait` the way desktop DevTools does. */
+@media (max-width: 900px), (max-aspect-ratio: 1/1) {
+  .app {
+    --intro-center-y: 34dvh;
+  }
+}
+
+@supports not (height: 1dvh) {
+  @media (max-width: 900px), (max-aspect-ratio: 1/1) {
+    .app {
+      --intro-center-y: 34vh;
+    }
   }
 }
 
