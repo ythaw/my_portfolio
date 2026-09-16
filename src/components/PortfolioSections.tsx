@@ -114,9 +114,10 @@ const SKILL_GROUPS: { label: string; skills: SkillBubble[] }[] = [
     label: 'Languages',
     skills: [
       { name: 'JavaScript', icon: `${DEVICON}/javascript/javascript-original.svg`, size: 'md', float: -0.55 },
+      { name: 'TypeScript', icon: `${DEVICON}/typescript/typescript-original.svg`, size: 'lg', float: 0.35 },
       { name: 'HTML', icon: `${DEVICON}/html5/html5-original.svg`, size: 'sm', float: 0.45 },
       { name: 'CSS', icon: `${DEVICON}/css3/css3-original.svg`, size: 'md', float: -0.2 },
-      { name: 'Python', icon: `${DEVICON}/python/python-original.svg`, size: 'lg', float: 0.35 },
+      { name: 'Python', icon: `${DEVICON}/python/python-original.svg`, size: 'lg', float: 0.15 },
       { name: 'Java', icon: `${DEVICON}/java/java-original.svg`, size: 'sm', float: -0.7 },
       { name: 'C++', icon: `${DEVICON}/cplusplus/cplusplus-original.svg`, size: 'md', float: 0.55 },
     ],
@@ -124,19 +125,20 @@ const SKILL_GROUPS: { label: string; skills: SkillBubble[] }[] = [
   {
     label: 'AI / ML',
     skills: [
-      { name: '', monogram: 'AI', size: 'md', float: 0.4 },
-      { name: '', monogram: 'RAG', size: 'sm', float: -0.65 },
+      { name: 'AI Agents', monogram: 'AI', size: 'md', float: 0.4 },
+      { name: 'RAG', monogram: 'RAG', size: 'sm', float: -0.65 },
       { name: 'Prompt Engineering', monogram: 'PE', size: 'md', float: 0.15 },
       { name: 'Computer Vision', icon: `${DEVICON}/opencv/opencv-original.svg`, size: 'lg', float: -0.35 },
-      { name: 'TensorFlow', icon: `${DEVICON}/tensorflow/tensorflow-original.svg`, size: 'md', float: 0.5 },
     ],
   },
   {
-    label: 'Frameworks',
+    label: 'Libraries & Frameworks',
     skills: [
       { name: 'React', icon: `${DEVICON}/react/react-original.svg`, size: 'lg', float: -0.45 },
       { name: 'OpenCV', icon: `${DEVICON}/opencv/opencv-original.svg`, size: 'md', float: 0.5 },
       { name: 'MediaPipe', icon: `${DEVICON}/google/google-original.svg`, size: 'sm', float: -0.25 },
+      { name: 'TensorFlow', icon: `${DEVICON}/tensorflow/tensorflow-original.svg`, size: 'md', float: 0.3 },
+      { name: 'Keras', icon: `${DEVICON}/keras/keras-original.svg`, size: 'sm', float: -0.55 },
       { name: 'Bootstrap', icon: `${DEVICON}/bootstrap/bootstrap-original.svg`, size: 'md', float: 0.35 },
       { name: 'Tailwind', icon: `${DEVICON}/tailwindcss/tailwindcss-original.svg`, size: 'sm', float: -0.6 },
       { name: 'JavaFX', icon: `${DEVICON}/java/java-original.svg`, size: 'md', float: 0.2 },
@@ -147,12 +149,28 @@ const SKILL_GROUPS: { label: string; skills: SkillBubble[] }[] = [
     skills: [
       { name: 'Git', icon: `${DEVICON}/git/git-original.svg`, size: 'lg', float: -0.3 },
       { name: 'Figma', icon: `${DEVICON}/figma/figma-original.svg`, size: 'md', float: 0.45 },
+      { name: 'Vite', icon: `${DEVICON}/vitejs/vitejs-original.svg`, size: 'sm', float: -0.5 },
+      { name: 'Axios', icon: `${DEVICON}/axios/axios-plain.svg`, size: 'md', float: 0.25 },
     ],
   },
 ]
 
+function chunkSkillRows(skills: readonly SkillBubble[], maxPerRow = 4): SkillBubble[][] {
+  // Languages (7): prefer a balanced 3 + 4 instead of 4 + 3.
+  if (skills.length === 7) {
+    return [skills.slice(0, 3), skills.slice(3)]
+  }
+
+  const rows: SkillBubble[][] = []
+  for (let i = 0; i < skills.length; i += maxPerRow) {
+    rows.push(skills.slice(i, i + maxPerRow))
+  }
+  return rows
+}
+
 export function PortfolioSections() {
   const [learningOpen, setLearningOpen] = useState(false)
+  const [emailCopied, setEmailCopied] = useState(false)
   const [isNarrow, setIsNarrow] = useState(
     () => typeof window !== 'undefined' && window.matchMedia('(max-width: 800px)').matches,
   )
@@ -177,6 +195,25 @@ export function PortfolioSections() {
   }, [learningOpen])
 
   const showLearningNote = !isNarrow || learningOpen
+
+  const copyEmail = async () => {
+    const email = 'yppthaw@gmail.com'
+    try {
+      await navigator.clipboard.writeText(email)
+    } catch {
+      const field = document.createElement('textarea')
+      field.value = email
+      field.setAttribute('readonly', '')
+      field.style.position = 'fixed'
+      field.style.left = '-9999px'
+      document.body.appendChild(field)
+      field.select()
+      document.execCommand('copy')
+      document.body.removeChild(field)
+    }
+    setEmailCopied(true)
+    window.setTimeout(() => setEmailCopied(false), 2000)
+  }
 
   return (
     <div className="portfolio">
@@ -427,39 +464,46 @@ export function PortfolioSections() {
             {SKILL_GROUPS.map((group) => (
               <div key={group.label} className="portfolio__skill-row">
                 <h3 className="portfolio__skill-label">{group.label}</h3>
-                <ul className="portfolio__skill-bubbles">
-                  {group.skills.map((skill) => (
-                    <li
-                      key={skill.name}
-                      className={[
-                        'portfolio__skill-bubble',
-                        `portfolio__skill-bubble--${skill.size}`,
-                      ].join(' ')}
-                      style={{ '--skill-float': `${skill.float}rem` } as CSSProperties}
+                <div className="portfolio__skill-rows">
+                  {chunkSkillRows(group.skills).map((row, rowIndex) => (
+                    <ul
+                      key={`${group.label}-${rowIndex}`}
+                      className="portfolio__skill-bubbles"
                     >
-                      <span className="portfolio__skill-bubble-frame" aria-hidden="true">
-                        <img src={bubbleImg} alt="" draggable={false} loading="lazy" decoding="async" />
-                      </span>
-                      <span className="portfolio__skill-bubble-content">
-                        {skill.icon ? (
-                          <img
-                            className="portfolio__skill-icon"
-                            src={skill.icon}
-                            alt=""
-                            draggable={false}
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        ) : (
-                          <span className="portfolio__skill-monogram" aria-hidden="true">
-                            {skill.monogram}
+                      {row.map((skill) => (
+                        <li
+                          key={skill.name}
+                          className={[
+                            'portfolio__skill-bubble',
+                            `portfolio__skill-bubble--${skill.size}`,
+                          ].join(' ')}
+                          style={{ '--skill-float': `${skill.float}rem` } as CSSProperties}
+                        >
+                          <span className="portfolio__skill-bubble-frame" aria-hidden="true">
+                            <img src={bubbleImg} alt="" draggable={false} loading="lazy" decoding="async" />
                           </span>
-                        )}
-                        <span className="portfolio__skill-name">{skill.name}</span>
-                      </span>
-                    </li>
+                          <span className="portfolio__skill-bubble-content">
+                            {skill.icon ? (
+                              <img
+                                className="portfolio__skill-icon"
+                                src={skill.icon}
+                                alt=""
+                                draggable={false}
+                                loading="lazy"
+                                decoding="async"
+                              />
+                            ) : (
+                              <span className="portfolio__skill-monogram" aria-hidden="true">
+                                {skill.monogram}
+                              </span>
+                            )}
+                            <span className="portfolio__skill-name">{skill.name}</span>
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
                   ))}
-                </ul>
+                </div>
               </div>
             ))}
           </div>
@@ -478,15 +522,37 @@ export function PortfolioSections() {
 
               <ul className="portfolio__contact-links">
                 <li>
-                  <a href="mailto:yppthaw@gmail.com">yppthaw@gmail.com</a>
+                  <button
+                    type="button"
+                    className={[
+                      'portfolio__contact-link',
+                      emailCopied && 'portfolio__contact-link--copied',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    onClick={() => void copyEmail()}
+                    aria-label={emailCopied ? 'Email copied to clipboard' : 'Copy email to clipboard'}
+                  >
+                    {emailCopied ? 'copied to clipboard!' : 'yppthaw@gmail.com'}
+                  </button>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com/in/yin-thaw" target="_blank" rel="noreferrer">
+                  <a
+                    className="portfolio__contact-link"
+                    href="https://www.linkedin.com/in/yin-thaw"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     linkedin.com/in/yin-thaw
                   </a>
                 </li>
                 <li>
-                  <a href="https://github.com/ythaw" target="_blank" rel="noreferrer">
+                  <a
+                    className="portfolio__contact-link"
+                    href="https://github.com/ythaw"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     github.com/ythaw
                   </a>
                 </li>

@@ -776,14 +776,17 @@
 .portfolio__skills {
   display: flex;
   flex-direction: column;
-  gap: clamp(1.75rem, 4vw, 2.75rem);
+  align-items: center;
+  gap: clamp(2.6rem, 5.5vw, 4rem);
 }
 
 .portfolio__skill-row {
-  display: grid;
-  grid-template-columns: minmax(6.5rem, 8.5rem) minmax(0, 1fr);
-  gap: 0.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  max-width: 46rem;
 }
 
 .portfolio__skill-label {
@@ -793,18 +796,26 @@
   letter-spacing: 0.02em;
   color: #2f2b27;
   line-height: 1.2;
+  text-align: center;
+}
+
+.portfolio__skill-rows {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.12rem;
+  min-width: 0;
 }
 
 .portfolio__skill-bubbles {
   margin: 0;
-  padding: 0.2rem 0 0.4rem;
+  padding: 0;
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  justify-content: space-evenly;
-  column-gap: clamp(1rem, 2.2vw, 1.5rem);
-  row-gap: clamp(0.35rem, 1.2vw, 0.75rem);
+  justify-content: center;
+  column-gap: clamp(1.15rem, 2.4vw, 1.85rem);
   overflow: visible;
 }
 
@@ -1014,7 +1025,7 @@
   gap: 0.7rem;
 }
 
-.portfolio__contact-links a {
+.portfolio__contact-link {
   display: block;
   width: 100%;
   padding: 0.85rem 1rem;
@@ -1023,25 +1034,34 @@
   background: rgba(244, 236, 224, 0.85);
   box-sizing: border-box;
   color: #2f2b27;
+  font: inherit;
   font-size: clamp(1.05rem, 2.5vw, 1.2rem);
   line-height: 1.25;
   text-align: center;
   text-decoration: none;
+  cursor: pointer;
   transition:
     background-color 0.18s ease,
     border-color 0.18s ease,
+    color 0.18s ease,
     transform 0.18s ease;
 }
 
-.portfolio__contact-links a:hover {
+.portfolio__contact-link:hover {
   background: rgba(236, 224, 208, 0.95);
   border-color: rgba(47, 43, 39, 0.55);
   transform: translateY(-1px);
 }
 
-.portfolio__contact-links a:focus-visible {
+.portfolio__contact-link:focus-visible {
   outline: 2px solid #7a8f7a;
   outline-offset: 2px;
+}
+
+.portfolio__contact-link--copied {
+  background: #e7f3ea;
+  border-color: rgba(90, 120, 90, 0.55);
+  color: #3d6b4a;
 }
 
 .portfolio__contact-closing {
@@ -1108,17 +1128,28 @@
     transform: translateY(-0.2rem);
   }
 
+  .portfolio__skills {
+    gap: 2.35rem;
+  }
+
   .portfolio__skill-row {
-    grid-template-columns: 1fr;
-    gap: 0.55rem;
-    align-items: start;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+
+  .portfolio__skill-label {
+    text-align: left;
+  }
+
+  .portfolio__skill-rows {
+    align-items: flex-start;
+    gap: 0.08rem;
   }
 
   .portfolio__skill-bubbles {
-    padding: 0;
     justify-content: flex-start;
-    column-gap: 1.15rem;
-    row-gap: 0.4rem;
+    flex-wrap: wrap;
+    column-gap: 1.2rem;
   }
 
   .portfolio__skill-bubble--sm {
