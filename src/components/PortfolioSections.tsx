@@ -362,7 +362,7 @@ export function PortfolioSections() {
                   current
                 </span>
               </h3>
-              <p className="portfolio__edu-meta">B.S. Computer Science · Expected May 2027</p>
+              <p className="portfolio__edu-meta">B.S. Computer Science · Expected December 2027</p>
               <p className="portfolio__edu-detail">GPA 3.9</p>
             </article>
           </div>
